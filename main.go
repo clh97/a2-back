@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"main/schemas"
 	"net/http"
@@ -10,10 +9,6 @@ import (
 	"github.com/graphql-go/graphql"
 	"github.com/graphql-go/handler"
 )
-
-func homeLink(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Welcome home! :)")
-}
 
 func main() {
 	cepSchema := generateCEPSchema()
@@ -27,7 +22,6 @@ func main() {
 
 	router := mux.NewRouter().StrictSlash(false)
 
-	router.HandleFunc("/", homeLink)
 	router.Handle("/graphql", gqlHandler)
 
 	log.Fatal(http.ListenAndServe(":3001", router))
