@@ -6,11 +6,17 @@ import (
 	"fmt"
 	"io/ioutil"
 	"main/types"
+	"main/validations"
 	"net/http"
 )
 
 // FetchDataByCep fetches data from specific CEP endpoint and returns as types.Address structure
 func FetchDataByCep(cep string) (*types.Address, error) {
+
+	if !validations.ValidateCep(cep) {
+		return nil, errors.New("Invalid CEP")
+	}
+
 	res, err := http.Get(fmt.Sprintf("http://viacep.com.br/ws/%s/json/", cep))
 
 	if err != nil {
