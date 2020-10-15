@@ -1,0 +1,21 @@
+FROM golang:alpine as dev
+
+ENV GO111MODULE=on \
+  CGO_ENABLED=0 \
+  GOOS=linux \
+  GOARCH=amd64
+
+# app
+WORKDIR /usr/app
+
+COPY . .
+
+# go dependencies
+RUN go get
+
+# for compile
+RUN go get github.com/githubnemo/CompileDaemon
+
+EXPOSE 3000
+
+ENTRYPOINT CompileDaemon --build="go build /usr/app" --command="/usr/app/main" -log-prefix=true
